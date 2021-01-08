@@ -6,10 +6,10 @@ const Footer = () => {
     <footer>
       <Container>
         <Row className='text-center'>
-          <Col md={6} className='py-3'>
-            &copy; Shark Colours. All Rights Reserved.
+          <Col xs={12} className='py-3'>
+            &copy; { new Date().getFullYear() } Shark Colours. All Rights Reserved.
           </Col>
-          <Col md={6} className='py-3'>
+          <Col xs={12} className='py-3'>
             <a
               className='px-3'
               href='https://instagram.com/shark_colours'
