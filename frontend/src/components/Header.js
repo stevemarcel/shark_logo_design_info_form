@@ -21,17 +21,17 @@ const Header = () => {
             <Nav className='ml-auto'>
               <LinkContainer to='/logoForm'>
                 <Nav.Link>
-                  <i class='fas fa-edit'></i> Logo Form
+                  <i className='fas fa-edit'></i> Logo Form
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to='/about'>
                 <Nav.Link>
-                  <i class='fas fa-search'></i> About
+                  <i className='fas fa-search'></i> About
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to='/contact'>
                 <Nav.Link>
-                  <i class='fas fa-address-card'></i> Contact
+                  <i className='fas fa-address-card'></i> Contact
                 </Nav.Link>
               </LinkContainer>
             </Nav>

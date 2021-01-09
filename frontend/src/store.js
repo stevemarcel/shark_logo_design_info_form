@@ -1,10 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { formSubmitReducer } from './reducers/formReducers'
+import { formCreateReducer } from './reducers/formReducers'
 
 const reducer = combineReducers({
-  formSubmit: formSubmitReducer
+  formCreate: formCreateReducer
 });
 
 const initialState = {};

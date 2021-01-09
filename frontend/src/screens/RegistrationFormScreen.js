@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
-import { formSubmit } from '../actions/formActions'
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { createForm } from '../actions/formActions';
+import { FORM_CREATE_RESET } from '../constants/formConstants';
 
 const RegistrationFormScreen = () => {
   const [enterpriseName, setEnterpriseName] = useState('');
@@ -17,15 +20,50 @@ const RegistrationFormScreen = () => {
   const [twitter, setTwitter] = useState('');
   const [otherSocialMedia, setOtherSocialMedia] = useState('');
   const [colour, setColour] = useState('');
-  const [logoType, setLogoType] = useState('');
+  const [logoType, setLogoType] = useState('Not sure');
   const [ownerName, setOwnerName] = useState('');
   const [ownerWhatsappTel, setOwnerWhatsappTel] = useState('');
   const [ownerFbk, setOwnerFbk] = useState('');
   const [ownerIg, setOwnerIg] = useState('');
   const [ownerTwitter, setOwnerTwitter] = useState('');
 
+  const formData = [
+    enterpriseName,
+    logoSlogan,
+    services,
+    address,
+    email,
+    tel,
+    whatsapp,
+    instagram,
+    facebook,
+    twitter,
+    otherSocialMedia,
+    colour,
+    logoType,
+    ownerName,
+    ownerWhatsappTel,
+    ownerFbk,
+    ownerIg,
+    ownerTwitter,
+  ];
+
+  const dispatch = useDispatch();
+
+  const formCreate = useSelector((state) => state.formCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+  } = formCreate;
+
+  useEffect(() => {
+    dispatch({ type: FORM_CREATE_RESET });
+  }, [dispatch]);
+
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(createForm(formData));
   };
 
   return (
@@ -38,6 +76,9 @@ const RegistrationFormScreen = () => {
           Please fill appropriately and input <b>NONE</b> where answer is unavailable
         </Col>
       </Row>
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+      {successCreate && <Message variant='success'>Form successfully submitted!</Message>}
       <FormContainer>
         <Card className='p-4 text-white' bg='primary'>
           <Row className='py-3 text-center'>
@@ -45,7 +86,7 @@ const RegistrationFormScreen = () => {
               <h4>Enterprise/Company Section</h4>
             </Col>
           </Row>
-          <Form.Group onSubmit={submitHandler}>
+          <Form onSubmit={submitHandler}>
             <Form.Group controlId='enterpriseName'>
               <Form.Label>Enterprise Name</Form.Label>
               <Form.Control
@@ -175,15 +216,14 @@ const RegistrationFormScreen = () => {
                 <Form.Label>Type of Logo</Form.Label>
                 <Form.Control
                   as='select'
-                  defaultValue='Not sure'
                   placeholder='Any other social media'
                   value={logoType}
                   onChange={(e) => setLogoType(e.target.value)}
                 >
-                  <option>Not sure</option>
-                  <option>Flat (₦5000)</option>
-                  <option>3D (₦5000)</option>
-                  <option>Both (₦8000)</option>
+                  <option value='Not sure'>Not sure</option>
+                  <option value='Flat'>Flat (₦5000)</option>
+                  <option value='3D'>3D (₦5000)</option>
+                  <option value='Both'>Both (₦8000)</option>
                 </Form.Control>
               </Form.Group>
             </Form.Row>
@@ -197,7 +237,7 @@ const RegistrationFormScreen = () => {
             <Form.Group controlId='ownerName'>
               <Form.Label>Enterprise Owner's full Name</Form.Label>
               <Form.Control
-                type='text'
+                type='name'
                 placeholder='Steve Smith'
                 value={ownerName}
                 onChange={(e) => setOwnerName(e.target.value)}
@@ -248,7 +288,7 @@ const RegistrationFormScreen = () => {
             <Button type='submit' variant='dark'>
               Submit
             </Button>
-          </Form.Group>
+          </Form>
         </Card>
       </FormContainer>
     </>

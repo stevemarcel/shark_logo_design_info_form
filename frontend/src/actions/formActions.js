@@ -1,14 +1,15 @@
 import axios from 'axios';
 import {
-  FORM_SUBMIT_FAIL,
-  FORM_SUBMIT_REQUEST,
-  FORM_SUBMIT_RESET,
-  FORM_SUBMIT_SUCCESS,
+  FORM_CREATE_FAIL,
+  FORM_CREATE_REQUEST,
+  FORM_CREATE_SUCCESS,
 } from '../constants/formConstants';
 
-export const formSubmit = (form) => async (dispatch) => {
+export const createForm = (formData) => async (dispatch) => {
   try {
-    dispatch({ type: FORM_SUBMIT_REQUEST });
+    dispatch({
+      type: FORM_CREATE_REQUEST,
+    });
 
     const config = {
       headers: {
@@ -16,15 +17,15 @@ export const formSubmit = (form) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(`/api/forms`, form, config);
+    const { data } = await axios.post(`/api/forms`, { formData }, config);
 
     dispatch({
-      type: FORM_SUBMIT_SUCCESS,
+      type: FORM_CREATE_SUCCESS,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: FORM_SUBMIT_FAIL,
+      type: FORM_CREATE_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     });
